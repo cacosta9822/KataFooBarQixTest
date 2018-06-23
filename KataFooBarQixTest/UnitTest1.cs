@@ -13,6 +13,7 @@ namespace KataFooBarQixTest
             var result= obj.compute("9");
             var expected = "Foo";
 
+
             Assert.AreEqual(expected, result);
         }
 
