@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace KataFooBarQixTest
 {
@@ -9,39 +12,41 @@ namespace KataFooBarQixTest
             var result = String.Empty; ;
             var val = int.Parse(v);
 
-            if (!(val % 3 == 0) && !(val % 5 == 0) && !(val % 7 == 0))
+            if (!ValidateNumberDivisibilityAble(val))
             {
                 result = val.ToString().Replace('0','*');
             }
             else
             {
-                if (val % 3 == 0)
-                {
-                    result += "Foo";
-                }
+                if (IsDivisble(val, 3)) result += "Foo";
+                if (IsDivisble(val, 5)) result += "Bar";
+                if (IsDivisble(val, 7)) result += "Qix";
 
-                if (val % 5 == 0)
-                {
-                    result += "Bar";
-                }
-
-                if (val % 7 == 0)
-                {
-                    result += "Qix";
-                }
-
-                foreach (var item in v.ToCharArray())
-                {
-                    if (item == '0') result += '*';
-                    if (item == '3') result = result + "Foo";
-                    if (item == '5') result = result + "Bar";
-                    if (item == '7') result = result + "Qix";
-
-                }
+                result+=ReplaceChars(v);
             }
 
-            //result = (val % 3 == 0) ? "Foo" : (val == 5 )? "Bar":val.ToString();
             return result;
         }
+
+        private bool ValidateNumberDivisibilityAble(int number)
+        {
+            return (!IsDivisble(number, 3) && !(IsDivisble(number, 5)) && !(IsDivisble(number, 7))) ? false:true;
+        }
+
+        public bool IsDivisble(int x, int n)
+        {
+            return (x % n) == 0;
+        }
+
+        private string ReplaceChars(string lParameter)
+        {
+            StringBuilder sb = new StringBuilder(lParameter);
+            sb.Replace("0", "*");
+            sb.Replace("3", "Foo");
+            sb.Replace("5", "Bar");
+            sb.Replace("7", "Qix");
+
+            return Regex.Replace(sb.ToString(), @"[\d-]", string.Empty);
+        }        
     }
 }
